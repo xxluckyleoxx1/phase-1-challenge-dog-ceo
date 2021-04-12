@@ -1,5 +1,5 @@
 console.log('%c HI', 'color: firebrick')
-const imgUrl = "https://dog.ceo/api/breeds/image/random/4" 
+//const imgUrl = "https://dog.ceo/api/breeds/image/random/4" 
 
 function fetchDogs(){
     return fetch("https://dog.ceo/api/breeds/image/random/4")
@@ -8,11 +8,7 @@ function fetchDogs(){
 
 }
 
-function fetchAllBreeds(){
-    return fetch('https://dog.ceo/api/breeds/list/all')
-    .then(resp => resp.json())
-    .then(json => console.log(json.message))
-}
+
 
 function renderDogs(dogs){
     let dogList = document.querySelector("div#dog-image-container")
@@ -24,16 +20,32 @@ function renderDogs(dogs){
         dogList.append(dogLi)
     })
 
-    function renderAllBreeds(breeds){
-        let breedList = document.querySelector('ul#dog-breeds')
-        breeds.forEach(breed => {
-            let breedLi = document.createElement('li')
-            
-        })
-    }
 }
 
 
+function fetchAllBreeds(){
+    return fetch('https://dog.ceo/api/breeds/list/all')
+    .then(resp => resp.json())
+    .then(json => renderAllBreeds((Object.keys(json.message))))
+}
+
+function renderAllBreeds(breeds){
+    let breedList = document.querySelector('ul#dog-breeds')
+    breeds.forEach(breed => {
+        let breedLi = document.createElement('li')
+        breedLi.innerText = breed
+        breedList.append(breedLi)
+
+        
+    })
+}
+
+
+let breedList = document.querySelector('#dog-breeds')
+breedList.addEventListener('click', function(e){
+    e.target.style.color = "red"
+
+})
 
 
 
@@ -41,5 +53,7 @@ function renderDogs(dogs){
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchDogs()
+    fetchDogs();
+    fetchAllBreeds();
 })
+
